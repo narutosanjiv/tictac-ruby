@@ -1,4 +1,3 @@
-require 'byebug'
 module Board
 
     def init_board(x)
@@ -46,7 +45,6 @@ module Board
     end
 
     def column_win?(val)
-        byebug
         col_win_value = true
         (0...@num).each do |row_num|
             col_win_value = true
@@ -66,6 +64,17 @@ module Board
         diagonal_win_valu = true
         (0...@num).each do |i|
             if !(@store[i * @num + i] == val)
+                diagonal_win_valu = false
+            end
+        end
+        if diagonal_win_valu
+            return true
+        end
+        diagonal_win_valu = true
+
+        ## Reverse Diagonal match
+        (0...@num).each do |i|
+            if !(@store[i * @num + (@num - (1 + i))] == val)
                 diagonal_win_valu = false
             end
         end

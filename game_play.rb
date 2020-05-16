@@ -25,9 +25,10 @@ class GamePlay
     end
 
     def get_formatted_value()
+        current_value = @player_values[@current_player - 1]
         puts "Choose number between (1-16)(Format: location1,location2) "
         puts "\n"
-        print "Player #{@player_names[@current_player-1]}: \n"
+        print "Player #{@player_names[@current_player-1]}(#{current_value}): \n"
         unformat_values = gets.strip
         vals = unformat_values.split(',').map(&:strip).map(&:to_i)
         return vals
