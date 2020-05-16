@@ -1,3 +1,4 @@
+require 'byebug'
 module Board
 
     def init_board(x)
@@ -28,17 +29,50 @@ module Board
         return false
     end
 
-    def win?(val)
+    def row_win?(val)
+        row_win_value = true
         (0...@num).each do |i|
+            row_win_value = true
             (0...@num).each do |j|
                 if !(@store[i * @num + j] == val)
-
+                    row_win_value = false
                 end
             end
+            if row_win_value
+                return row_win_value
+            end
          end
+         row_win_value
     end
 
-    def draw?
+    def column_win?(val)
+        byebug
+        col_win_value = true
+        (0...@num).each do |row_num|
+            col_win_value = true
+            (0...@num).each do |j|
+                if !(@store[j * @num + row_num] == val)
+                    col_win_value = false
+                end
+            end
+            if col_win_value
+                return col_win_value
+            end
+        end
+        col_win_value
+    end
 
+    def diagonal_win?(val)
+        diagonal_win_valu = true
+        (0...@num).each do |i|
+            if !(@store[i * @num + i] == val)
+                diagonal_win_valu = false
+            end
+        end
+        diagonal_win_valu
+    end
+
+    def win?(val)
+        row_win?(val) || column_win?(val) || diagonal_win?(val)
     end
 end

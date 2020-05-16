@@ -6,6 +6,9 @@ class GamePlay
         @current_player = 1
         @player_values = ["X", "0"]
         @num_of_turn = 0
+        @player_names = []
+        @win = false
+        @winner_player = ""
     end
 
     def valid_move(loc1, loc2)
@@ -24,7 +27,7 @@ class GamePlay
     def get_formatted_value()
         puts "Choose number between (1-16)(Format: location1,location2) "
         puts "\n"
-        print "Player #{@current_player}: \n"
+        print "Player #{@player_names[@current_player-1]}: \n"
         unformat_values = gets.strip
         vals = unformat_values.split(',').map(&:strip).map(&:to_i)
         return vals
@@ -56,15 +59,36 @@ class GamePlay
         return false
     end
 
+
+
     def complete?
-        draw?
+        current_value = @player_values[@current_player - 1]
+        @win = win?(current_value)
+        return (draw? || @win)
+    end
+
+    def announce_winner
+        print "=============================================================================\n\n"
+        print " Congratulations Player: #{@player_names[@current_player - 1]} for your win \n\n"
+        print "=============================================================================\n\n"
     end
 
     def run
+        if @player_names.length == 0
+            puts "** Enter First Player Name: "
+            @player_names[0] = gets.strip
+            puts "** Enter Second Player Name: "
+            @player_names[1] = gets.strip
+        end
         loop do
             display()
             next_turn()
-            break if complete?
+            if complete?
+                if @win
+                    announce_winner
+                end
+                break
+            end
             if @current_player == 1
                 @current_player = 2
             else
@@ -86,4 +110,5 @@ loop do
         answer = gets.chomp
     end
     break if answer == "N"
+    Gem.win_platform? ? (system "cls") : (system "clear")
 end
