@@ -21,7 +21,7 @@ module Board
     end
 
     def can_change_state?(loc1, loc2)
-        if @store[loc1] == " " and @store[loc2] == " "
+        if @store[loc1 - 1] == " " and @store[loc2 - 1] == " "
             return true
         end
         print "Choose Empty Board location"

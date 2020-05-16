@@ -9,7 +9,7 @@ class GamePlay
     end
 
     def valid_move(loc1, loc2)
-        if loc1.between?(1, 16) and loc2.between?(1, 16)
+        if (loc1 && loc1.between?(1, 16)) and (loc2 && loc2.between?(1, 16))
             if loc1 == loc2
                 puts "Can not enter same value\n"
             end
@@ -46,8 +46,18 @@ class GamePlay
         end
     end
 
+    def draw?
+        if @num_of_turn >= 8
+            print "==================="
+            print "....GAME DRAW......"
+            print "==================="
+            return true
+        end
+        return false
+    end
+
     def complete?
-        false
+        draw?
     end
 
     def run
@@ -55,7 +65,6 @@ class GamePlay
             display()
             next_turn()
             break if complete?
-
             if @current_player == 1
                 @current_player = 2
             else
@@ -68,6 +77,8 @@ end
 loop do
     game_play = GamePlay.new(4)
     game_play.run()
+    print "\n\n"
+    print "========================="
     print("Want to play game agin(Y/N)")
     answer = gets.chomp
     until ["Y", "N"].include?(answer) do
